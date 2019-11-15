@@ -43,19 +43,22 @@
 
 ## API 문서 작성하기
 
-| 구분                 | url              | method | parameter                        | response                                                     |
-| -------------------- | ---------------- | ------ | -------------------------------- | ------------------------------------------------------------ |
-| 로그인               | /auth/login      | POST   | email,password                   | result(B),token,admin(B)                                     |
-| email 중복체크       | /auth/email      | GET    | email                            | result(B)                                                    |
-| 회원가입             | /auth/join       | POST   | name,email,password              | result(B)                                                    |
-| 메인페이지의 글      | /api/posts       | GET    | tag,page,per_page                | id, title, date, author, tags, comment_count                 |
-| 메인페이지 왼쪽 태그 | /api/tags        | GET    |                                  | tags[{tag,post_count}]                                       |
-| 글 상세              | /api/post/:id    | GET    | id                               | id, title, date, author, tags[tag], contents, comments[{author, date, contents}] |
-| 글 쓰기              | /api/post        | POST   | title, tags, contents, token     | result(B)                                                    |
-| 글 수정              | /api/post/:id    | PATCH  | id, title, tags, contents, token | result(B)                                                    |
-| 글 삭제              | /api/post/:id    | DELETE | id, token                        | result(B)                                                    |
-| 댓글 쓰기            | /api/comment     | POST   | post-id, token, contents         | result(B)                                                    |
-| 댓글 삭제            | /api/comment/:id | DELETE | id, token,                       | result(B)                                                    |
+| 구분                 | url              | method | parameter                        | response(default error포함)                                                            |
+| -------------------- | ---------------- | ------ | -------------------------------- | -------------------------------------------------------------------------------------- |
+| 로그인               | /auth/login      | POST   | email,password                   | result(B),token,admin(B)                                                               |
+| email 중복체크       | /auth/email      | GET    | email                            | result(B)                                                                              |
+| 회원가입             | /auth/join       | POST   | name,email,password              | result(B)                                                                              |
+| 메인페이지의 글      | /api/post        | GET    | tag,page                         | posts[{id, title, date, author, tags, comments }]                                      |
+| 메인페이지 왼쪽 태그 | /api/tags        | GET    |                                  | tags[{tag,posts}]                                                                      |
+| 글 상세              | /api/post/:id    | GET    | id                               | id, title, date, author, tags[{id,name}], contents, comments[{author, date, contents}] |
+| 글 쓰기              | /api/post        | POST   | title, tags, contents, token     | result(B)                                                                              |
+| 글 수정              | /api/post/:id    | PATCH  | id, title, tags, contents, token | result(B)                                                                              |
+| 글 삭제              | /api/post/:id    | DELETE | id, token                        | result(B)                                                                              |
+| 댓글 쓰기            | /api/comment     | POST   | post_id, token, contents         | result(B)                                                                              |
+| 댓글 삭제            | /api/comment/:id | DELETE | id, token,                       | result(B)                                                                              |
+| 댓글 읽기            | /api/comment     | GET    | post_id,                         | comments                                                                               |
+| 태그 검색            | /api/tag         | GET    | name                             | tag{id, name, posts}                                                                   |
+| 태그 만들기          | /api/tag         | POST   | name                             | tag{id, name, posts}                                                                   |
 
 ## DB
 
@@ -72,7 +75,7 @@
   - comments[comment_id]
   - tags[tag_id]
 - tags
-  - name
+  - name(unique)
   - posts[post_id]
 - comments
   - post_id
@@ -115,3 +118,5 @@
 7. 책임자와 코드리뷰 등을 진행한 다음, `develop`브랜치에 merge하고, 해당 카드를 `완료`로 이동합니다.
 
 8. `할 일`을 모두 완료할 때까지 3~7을 계속 반복합니다.
+
+##git flaw 사용법
